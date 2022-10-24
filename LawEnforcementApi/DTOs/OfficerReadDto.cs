@@ -2,7 +2,7 @@
 
 public record OfficerReadDto
 {
-    public string CallSign { get; set; } = null!;
-    public string Rank { get; set; } = null!;
-    public ICollection<string> CrimeEvents { get; set; } = null!;
+    public string CallSign { get; init; } = null!;
+    public string Rank { get; init; } = null!;
+    public ICollection<string> CrimeEvents { get; init; } = null!;
 }
