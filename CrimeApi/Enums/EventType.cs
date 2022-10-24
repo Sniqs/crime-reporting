@@ -2,7 +2,7 @@
 
 public enum EventType
 {
-    Burglary,
-    Assault,
-    GrandTheftAuto
+    Burglary = 0,
+    Assault = 1,
+    GrandTheftAuto = 2
 }

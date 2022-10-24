@@ -1,5 +1,6 @@
 ﻿using CrimeApi.DAL.Interfaces;
 using CrimeApi.Entities;
+using CrimeApi.Exceptions;
 using MongoDB.Driver;
 
 namespace CrimeApi.DAL;
@@ -25,5 +26,13 @@ public class CrimeEventsDAO : ICrimeEventsDAO
 
     public async Task<IEnumerable<CrimeEvent>> GetAllAsync()
         => await _crimeEventsCollection.Find(_ => true).ToListAsync();
-    
+
+    public async Task<CrimeEvent> GetSingleAsync(string id)
+    {
+        var crimeEvent = await _crimeEventsCollection.Find(e => e.Id == id).FirstOrDefaultAsync();
+
+        if (crimeEvent is null)
+            throw new ResourceNotFoundException($"Crime event with id {id} doesn't exist.");
+        return crimeEvent;
+    }
 }

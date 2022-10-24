@@ -1,14 +1,10 @@
 ﻿using CrimeApi.Enums;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
 
 namespace CrimeApi.DTOs;
 
 public record CrimeEventReadDto
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; init; }
 
     public DateTime OccurrenceTime { get; init; }
