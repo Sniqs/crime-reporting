@@ -1,4 +1,5 @@
 using LawEnforcementApi.Contexts;
+using LawEnforcementApi.Middleware;
 using LawEnforcementApi.Services;
 using LawEnforcementApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<LawEnforcementContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString(name: "LawEnforcementDb")));
 builder.Services.AddScoped<IOfficersService, OfficersService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

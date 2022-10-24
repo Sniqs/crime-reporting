@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LawEnforcementApi.Contexts;
 using LawEnforcementApi.DTOs;
+using LawEnforcementApi.Exceptions;
 using LawEnforcementApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,9 @@ public class OfficersService : IOfficersService
             .Include(o => o.CrimeEvents)
             .AsNoTracking()
             .FirstOrDefaultAsync();
+
+        if (officer is null)
+            throw new ResourceNotFoundException($"Officer with call sign {callSign} doesn't exist.");
 
         return _mapper.Map<OfficerReadDto>(officer);
     }
