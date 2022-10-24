@@ -12,11 +12,14 @@ public class CrimeEvent
 
     public DateTime OccurrenceTime { get; set; }
 
+    [BsonRepresentation(BsonType.String)]
     public EventType Type { get; set; }
 
     public string Description { get; set; } = null!;
     public string Location { get; set; } = null!;
     public string ReporterEmail { get; set; } = null!;
+    
+    [BsonRepresentation(BsonType.String)]
     public Status EventStatus { get; set; }
-    public string AssignedOfficer { get; set; } = null!;
+    public string AssignedOfficerCallSign { get; set; } = null!;
 }
