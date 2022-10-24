@@ -7,6 +7,7 @@ public class LawEnforcementContext : DbContext
 {
     public DbSet<Officer> Officers { get; set; } = null!;
     public DbSet<Rank> Ranks { get; set; } = null!;
+    public DbSet<CrimeEvent> CrimeEvents { get; set; } = null!;
 
     public LawEnforcementContext(DbContextOptions<LawEnforcementContext> options) : base(options) { }
 

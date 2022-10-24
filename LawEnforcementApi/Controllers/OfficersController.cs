@@ -23,6 +23,17 @@ public class OfficersController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
 		=> Ok(await _service.GetAllAsync());
 
+    [HttpGet("assign/{crimeEventId}")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK)]
+    public async Task<IActionResult> AssignOfficer(string crimeEventId)
+    {
+        var officerCallSignDto = await _service.AssignCaseToOfficerAsync(crimeEventId);
+        return Ok(officerCallSignDto);
+    }
+
+
+
     [HttpGet("{callSign}")]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(OfficerReadDto))]

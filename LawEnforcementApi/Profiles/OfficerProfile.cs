@@ -11,5 +11,7 @@ public class OfficerProfile : Profile
         CreateMap<Officer, OfficerReadDto>()
             .ForMember(o => o.Rank, opt => opt.MapFrom(r => r.OfficerRank.Name))
             .ForMember(o => o.CrimeEvents, opt => opt.MapFrom(o => o.CrimeEvents.Select(e => e.CrimeEventId)));
+
+        CreateMap<Officer, CallSignDto>();
     }
 }

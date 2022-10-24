@@ -16,5 +16,4 @@ public record CrimeEventCreateDto
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Status EventStatus { get; init; }
-    public string AssignedOfficerCallSign { get; init; } = null!;
 }

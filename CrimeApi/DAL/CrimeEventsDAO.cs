@@ -35,4 +35,10 @@ public class CrimeEventsDAO : ICrimeEventsDAO
             throw new ResourceNotFoundException($"Crime event with id {id} doesn't exist.");
         return crimeEvent;
     }
+
+    public async Task UpdateCrimeEventAsync(CrimeEvent crimeEvent)
+    {
+        var update = Builders<CrimeEvent>.Update.Set(nameof(CrimeEvent.AssignedOfficerCallSign), crimeEvent.AssignedOfficerCallSign);
+        await _crimeEventsCollection.UpdateOneAsync(e => e.Id == crimeEvent.Id, update);
+    }
 }
