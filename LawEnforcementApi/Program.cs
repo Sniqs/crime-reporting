@@ -1,10 +1,6 @@
 using LawEnforcementApi.Contexts;
 using LawEnforcementApi.Extensions;
-using LawEnforcementApi.Middleware;
-using LawEnforcementApi.Services;
-using LawEnforcementApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,21 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<LawEnforcementContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString(name: "LawEnforcementDb")));
-builder.Services.AddScoped<IOfficersService, OfficersService>();
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<LoggingMiddleware>();
+builder.Services.AddServicesToDi();
+builder.Services.AddMiddlewareToDi();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml")));
+builder.Services.AddSwaggerGenWithCustomOptions();
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseMiddleware<LoggingMiddleware>();
-app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseCustomMiddleware();
+
 app.UseAuthorization();
 
 app.MapControllers();

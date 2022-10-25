@@ -1,10 +1,4 @@
-using CrimeApi.DAL;
-using CrimeApi.DAL.Interfaces;
-using CrimeApi.Filters;
-using CrimeApi.Middleware;
-using CrimeApi.Services;
-using CrimeApi.Services.Interfaces;
-using System.Reflection;
+using CrimeApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,25 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<ICrimeEventsDAO, CrimeEventsDAO>();
-builder.Services.AddScoped<ICrimeEventsService, CrimeEventsService>();
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<LoggingMiddleware>();
+builder.Services.AddDaosToDi();
+builder.Services.AddServicesToDi();
+builder.Services.AddMiddlewareToDi();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
-    c.SchemaFilter<EnumSchemaFilter>();
-    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
-});
+builder.Services.AddSwaggerGenWithCustomOptions();
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseMiddleware<LoggingMiddleware>();
-app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseCustomMiddleware();
 
 app.UseAuthorization();
 

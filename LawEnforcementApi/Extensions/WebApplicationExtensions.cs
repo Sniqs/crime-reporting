@@ -1,10 +1,17 @@
 ﻿using LawEnforcementApi.Contexts;
+using LawEnforcementApi.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 namespace LawEnforcementApi.Extensions;
 
 public static class WebApplicationExtensions
 {
+    public static void UseCustomMiddleware(this WebApplication app)
+    {
+        app.UseMiddleware<LoggingMiddleware>();
+        app.UseMiddleware<ErrorHandlingMiddleware>();
+    }
+
     public static void ApplyPendingMigrations(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
