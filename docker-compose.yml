@@ -38,6 +38,17 @@ services:
     volumes:
       - crime-event-db:/data/db
 
+  seq:
+    image: datalust/seq
+    restart: on-failure
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "8081:80"
+    volumes:
+      - seq-logs:/data
+
 volumes:
     law-enforcement-db:
     crime-event-db:
+    seq-logs:

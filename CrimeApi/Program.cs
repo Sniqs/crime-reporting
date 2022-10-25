@@ -14,7 +14,8 @@ try
 
 	builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console()
-        .WriteTo.File(new CompactJsonFormatter(), "Logs/log.json", rollingInterval: RollingInterval.Day));
+        .WriteTo.File(new CompactJsonFormatter(), "Logs/log.json", rollingInterval: RollingInterval.Day)
+        .WriteTo.Seq(builder.Configuration["SeqServerUrl"]));
 
     // Add services to the container.
     builder.Services.AddControllers();
