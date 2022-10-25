@@ -1,9 +1,12 @@
 using CrimeApi.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console());
 
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

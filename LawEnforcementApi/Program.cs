@@ -1,8 +1,12 @@
 using LawEnforcementApi.Contexts;
 using LawEnforcementApi.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console());
 
 // Add services to the container.
 
