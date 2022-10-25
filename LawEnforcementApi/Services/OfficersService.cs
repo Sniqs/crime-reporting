@@ -12,24 +12,30 @@ public class OfficersService : IOfficersService
 {
     private readonly LawEnforcementContext _dbcontext;
     private readonly IMapper _mapper;
+    private readonly ILogger<OfficersService> _logger;
 
-    public OfficersService(LawEnforcementContext dbcontext, IMapper mapper)
+    public OfficersService(LawEnforcementContext dbcontext, IMapper mapper, ILogger<OfficersService> logger)
     {
         _dbcontext = dbcontext;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<CallSignDto> AssignCaseToOfficerAsync(string crimeEventId)
     {
+        _logger.LogDebug("Attempting to get a random officer");
         var officer = await GetRandomOfficerAsync();
         var crimeEvent = new CrimeEvent { CrimeEventId = crimeEventId, OfficerId = officer.Id };
         _dbcontext.CrimeEvents.Add(crimeEvent);
+
+        _logger.LogDebug("Attempting to save a new crime event");
         await _dbcontext.SaveChangesAsync();
         return _mapper.Map<CallSignDto>(officer);
     }
 
     private async Task<Officer> GetRandomOfficerAsync()
     {
+        _logger.LogDebug("Attempting to get the number of officers in persistence");
         var numberOfOfficers = await _dbcontext.Officers.CountAsync();
 
         if (numberOfOfficers == 0)
@@ -39,12 +45,16 @@ public class OfficersService : IOfficersService
         var officer = await _dbcontext.Officers.Skip(randomOfficer).Take(1).FirstOrDefaultAsync();
 
         if (officer is null)
+        {
+            _logger.LogDebug("Persistence returned a null officer");
             throw new ResourceNotFoundException($"No officers available.");
+        }
         return officer;
     }
 
     public async Task<IEnumerable<OfficerReadDto>> GetAllAsync()
     {
+        _logger.LogDebug("Attempting to get all officers from persistence");
         var officers = await _dbcontext.Officers
             .Include(o => o.OfficerRank)
             .Include(o => o.CrimeEvents)
@@ -56,6 +66,7 @@ public class OfficersService : IOfficersService
 
     public async Task<OfficerReadDto> GetSingleAsync(string callSign)
     {
+        _logger.LogDebug("Attempting to get a single officer from persistence");
         var officer = await _dbcontext.Officers
             .Where(o => o.CallSign == callSign)
             .Include(o => o.OfficerRank)
@@ -63,7 +74,10 @@ public class OfficersService : IOfficersService
             .FirstOrDefaultAsync();
 
         if (officer is null)
+        {
+            _logger.LogDebug("Persistence returned a null officer");
             throw new ResourceNotFoundException($"Officer with call sign {callSign} doesn't exist.");
+        }
 
         return _mapper.Map<OfficerReadDto>(officer);
     }

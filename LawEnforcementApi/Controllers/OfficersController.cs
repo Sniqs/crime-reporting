@@ -23,19 +23,20 @@ public class OfficersController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
 		=> Ok(await _service.GetAllAsync());
 
-    [HttpPost("assign")]
-    [Produces(MediaTypeNames.Application.Json)]
-    [SwaggerResponse(StatusCodes.Status200OK)]
-    public async Task<IActionResult> AssignOfficer(AssignOfficerDto assignOfficerDto)
-    {
-        var officerCallSignDto = await _service.AssignCaseToOfficerAsync(assignOfficerDto.CrimeEventId);
-        return Ok(officerCallSignDto);
-    }
-
     [HttpGet("{callSign}")]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(OfficerReadDto))]
     [SwaggerResponse(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetSingleAsync(string callSign)
         => Ok(await _service.GetSingleAsync(callSign));
+
+    [HttpPost("assign")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(CallSignDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> AssignOfficer(AssignOfficerDto assignOfficerDto)
+    {
+        var officerCallSignDto = await _service.AssignCaseToOfficerAsync(assignOfficerDto.CrimeEventId);
+        return Ok(officerCallSignDto);
+    }
 }

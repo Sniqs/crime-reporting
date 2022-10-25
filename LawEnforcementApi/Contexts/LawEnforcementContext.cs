@@ -20,6 +20,8 @@ public class LawEnforcementContext : DbContext
         });
 
         builder.Entity<Rank>(b => b.Property(r => r.Name).HasMaxLength(50));
+
+        builder.Entity<CrimeEvent>(b => b.Property(r => r.CrimeEventId).HasMaxLength(50));
     }
 }
 

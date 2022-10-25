@@ -19,13 +19,13 @@ namespace CrimeApi.Middleware
             }
             catch (ResourceNotFoundException e)
             {
-                _logger.LogError(e, e.Message);
+                _logger.LogError("{message}", e.Message);
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsJsonAsync(e.Message);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
+                _logger.LogError("{message}", e.Message);
                 context.Response.StatusCode = 500;
                 await context.Response.WriteAsJsonAsync("Something went wrong.");
             }

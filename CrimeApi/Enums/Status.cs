@@ -2,7 +2,8 @@
 
 public enum Status
 {
-    Waiting = 0,
-    Finished = 1,
-    Declined = 2
+    Undefined = 0,
+    Waiting = 1,
+    Finished = 2,
+    Declined = 3
 }

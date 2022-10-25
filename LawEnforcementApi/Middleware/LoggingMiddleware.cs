@@ -11,6 +11,12 @@
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            _logger.LogDebug("Received {requestMethod} request on {requestScheme}://{requestHost}{requestPath}",
+                context.Request.Method,
+                context.Request.Scheme,
+                context.Request.Host,
+                context.Request.Path);
+
             await next.Invoke(context);
 
             switch (context.Response.StatusCode)

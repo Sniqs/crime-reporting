@@ -12,10 +12,12 @@ namespace CrimeApi.Controllers;
 public class CrimeEventsController : ControllerBase
 {
     private readonly ICrimeEventsService _service;
+    private readonly ILogger<CrimeEventsController> _logger;
 
-    public CrimeEventsController(ICrimeEventsService service)
+    public CrimeEventsController(ICrimeEventsService service, ILogger<CrimeEventsController> logger)
     {
         _service = service;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -37,7 +39,8 @@ public class CrimeEventsController : ControllerBase
         if (ObjectId.TryParse(crimeEventId, out _))
             return Ok(await _service.GetSingleCrimeEventAsync(crimeEventId));
 
-        return BadRequest(new {Message = "Incorrect event id format." });
+        _logger.LogInformation("Incorrect event id: {eventId}.", crimeEventId);
+        return BadRequest(new {Message = "Incorrect event id." });
     }
 
     [HttpPost]

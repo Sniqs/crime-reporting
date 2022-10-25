@@ -1,4 +1,10 @@
-﻿namespace LawEnforcementApi.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record AssignOfficerDto(string CrimeEventId);
+namespace LawEnforcementApi.DTOs;
+
+public record AssignOfficerDto 
+{
+    [MaxLength(50)]
+    public string CrimeEventId { get; init; } = null!;
+}
 
