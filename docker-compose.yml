@@ -6,15 +6,22 @@ services:
     build:
       context: .
       dockerfile: CrimeApi/Dockerfile
+    restart: on-failure
+    depends_on:
+      - mongo
 
   lawenforcementapi:
     image: ${DOCKER_REGISTRY-}lawenforcementapi
     build:
       context: .
       dockerfile: LawEnforcementApi/Dockerfile
+    restart: on-failure
+    depends_on:
+      - db
 
   db:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
+    restart: on-failure
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
@@ -25,6 +32,7 @@ services:
 
   mongo:
     image: mongo
+    restart: on-failure
     ports:
       - "27017:27017"
     volumes:
