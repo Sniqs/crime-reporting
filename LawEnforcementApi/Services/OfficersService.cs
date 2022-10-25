@@ -56,7 +56,7 @@ public class OfficersService : IOfficersService
         if (officer is null)
         {
             _logger.LogDebug("Persistence returned a null officer");
-            throw new ResourceNotFoundException($"Officer with call sign {callSign} doesn't exist.");
+            throw new ResourceNotFoundException($"Officer with call sign '{callSign}' doesn't exist.");
         }
 
         return _mapper.Map<OfficerReadDto>(officer);
@@ -89,7 +89,7 @@ public class OfficersService : IOfficersService
         if (rank is null)
         {
             _logger.LogDebug("Persistence returned a null rank");
-            throw new ResourceNotFoundException($"Rank {providedRank} doesn't exist.");
+            throw new ResourceNotFoundException($"Rank '{providedRank}' doesn't exist.");
         }
         return rank;
     }

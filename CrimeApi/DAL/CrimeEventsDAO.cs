@@ -32,7 +32,7 @@ public class CrimeEventsDAO : ICrimeEventsDAO
         var crimeEvent = await _crimeEventsCollection.Find(e => e.Id == id).FirstOrDefaultAsync();
 
         if (crimeEvent is null)
-            throw new ResourceNotFoundException($"Crime event with id {id} doesn't exist.");
+            throw new ResourceNotFoundException($"Crime event with id '{id}' doesn't exist.");
         return crimeEvent;
     }
 
