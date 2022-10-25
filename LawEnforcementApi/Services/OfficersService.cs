@@ -84,6 +84,7 @@ public class OfficersService : IOfficersService
 
     public async Task<OfficerReadDto> CreateOfficerAsync(OfficerCreateDto officerCreateDto)
     {
+        await CheckIfCallSignTakenAsync(officerCreateDto.CallSign);
         var officer = _mapper.Map<Officer>(officerCreateDto);
         var rank = await GetRank(officerCreateDto.Rank);
         officer.OfficerRank = rank;
@@ -93,6 +94,13 @@ public class OfficersService : IOfficersService
         await _dbcontext.SaveChangesAsync();
 
         return _mapper.Map<OfficerReadDto>(officer);
+    }
+
+    private async Task CheckIfCallSignTakenAsync(string callSign)
+    {
+        var officer = await _dbcontext.Officers.FirstOrDefaultAsync(o => o.CallSign == callSign);
+        if (officer is not null)
+            throw new DuplicateException("An officer with the provided call sign already exists.");
     }
 
     private async Task<Rank> GetRank(string providedRank)

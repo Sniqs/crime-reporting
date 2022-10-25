@@ -17,6 +17,12 @@ namespace LawEnforcementApi.Middleware
             {
                 await next.Invoke(context);
             }
+            catch (DuplicateException e)
+            {
+                _logger.LogError("{message}", e.Message);
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(e.Message);
+            }
             catch (ResourceNotFoundException e)
             {
                 _logger.LogError("{message}", e.Message);
