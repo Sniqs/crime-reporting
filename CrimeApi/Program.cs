@@ -1,32 +1,51 @@
 using CrimeApi.Extensions;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.Console());
+Log.Information("Starting up");
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddHttpClient();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDaosToDi();
-builder.Services.AddServicesToDi();
-builder.Services.AddMiddlewareToDi();
+try
+{
+	var builder = WebApplication.CreateBuilder(args);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGenWithCustomOptions();
+	builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console()
+        .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day));
 
-var app = builder.Build();
+    // Add services to the container.
+    builder.Services.AddControllers();
+	builder.Services.AddHttpClient();
+	builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+	builder.Services.AddDaosToDi();
+	builder.Services.AddServicesToDi();
+	builder.Services.AddMiddlewareToDi();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+	// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+	builder.Services.AddEndpointsApiExplorer();
+	builder.Services.AddSwaggerGenWithCustomOptions();
 
-app.UseCustomMiddleware();
+	var app = builder.Build();
 
-app.UseAuthorization();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 
-app.MapControllers();
+	app.UseCustomMiddleware();
 
-app.Run();
+	app.UseSerilogRequestLogging();
+
+	app.MapControllers();
+
+	app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Unhandled exception");
+}
+finally
+{
+    Log.Information("Shut down complete");
+    Log.CloseAndFlush();
+}

@@ -3,34 +3,53 @@ using LawEnforcementApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.Console());
+Log.Information("Starting up");
 
-// Add services to the container.
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<LawEnforcementContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString(name: "LawEnforcementDb")));
-builder.Services.AddServicesToDi();
-builder.Services.AddMiddlewareToDi();
+    builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console()
+        .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day));
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGenWithCustomOptions();
+    // Add services to the container.
 
-var app = builder.Build();
+    builder.Services.AddControllers();
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    builder.Services.AddDbContext<LawEnforcementContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString(name: "LawEnforcementDb")));
+    builder.Services.AddServicesToDi();
+    builder.Services.AddMiddlewareToDi();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGenWithCustomOptions();
 
-app.UseCustomMiddleware();
+    var app = builder.Build();
 
-app.UseAuthorization();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
-app.MapControllers();
+    app.UseCustomMiddleware();
 
-app.ApplyPendingMigrations();
+    app.UseSerilogRequestLogging();
 
-app.Run();
+    app.MapControllers();
+
+    app.ApplyPendingMigrations();
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Unhandled exception");
+}
+finally
+{
+    Log.Information("Shut down complete");
+    Log.CloseAndFlush();
+}

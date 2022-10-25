@@ -15,7 +15,6 @@ public static class IServiceCollectionExtensions
     public static void AddMiddlewareToDi(this IServiceCollection services)
     {
         services.AddScoped<ErrorHandlingMiddleware>();
-        services.AddScoped<LoggingMiddleware>();
     }
     public static void AddSwaggerGenWithCustomOptions(this IServiceCollection services)
     {
