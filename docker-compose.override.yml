@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  crimeapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerCompose
+    ports:
+      - "8080:80"
+
+  lawenforcementapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerCompose
+    ports:
+      - "8888:80"

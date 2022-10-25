@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrimeApi", "CrimeApi\CrimeApi.csproj", "{6CB6C7B5-433C-4565-A9D7-19F611DBCF5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LawEnforcementApi", "LawEnforcementApi\LawEnforcementApi.csproj", "{330F1025-55F6-4226-9F25-873D30B83AE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LawEnforcementApi", "LawEnforcementApi\LawEnforcementApi.csproj", "{330F1025-55F6-4226-9F25-873D30B83AE7}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9AAB5114-3964-4775-B352-2699F42B8594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{330F1025-55F6-4226-9F25-873D30B83AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{330F1025-55F6-4226-9F25-873D30B83AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{330F1025-55F6-4226-9F25-873D30B83AE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AAB5114-3964-4775-B352-2699F42B8594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AAB5114-3964-4775-B352-2699F42B8594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AAB5114-3964-4775-B352-2699F42B8594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AAB5114-3964-4775-B352-2699F42B8594}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
