@@ -81,4 +81,28 @@ public class OfficersService : IOfficersService
 
         return _mapper.Map<OfficerReadDto>(officer);
     }
+
+    public async Task<OfficerReadDto> CreateOfficerAsync(OfficerCreateDto officerCreateDto)
+    {
+        var officer = _mapper.Map<Officer>(officerCreateDto);
+        var rank = await GetRank(officerCreateDto.Rank);
+        officer.OfficerRank = rank;
+
+        _logger.LogDebug("Attempting to persist an officer");
+        _dbcontext.Officers.Add(officer);
+        await _dbcontext.SaveChangesAsync();
+
+        return _mapper.Map<OfficerReadDto>(officer);
+    }
+
+    private async Task<Rank> GetRank(string providedRank)
+    {
+        var rank = await _dbcontext.Ranks.FirstOrDefaultAsync(r => r.Name == providedRank);
+        if (rank is null)
+        {
+            _logger.LogDebug("Persistence returned a null rank");
+            throw new ResourceNotFoundException($"Rank {providedRank} doesn't exist.");
+        }
+        return rank;
+    }
 }

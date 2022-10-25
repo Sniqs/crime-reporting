@@ -23,7 +23,18 @@ public class OfficersController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
 		=> Ok(await _service.GetAllAsync());
 
-    [HttpGet("{callSign}")]
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(OfficerReadDto))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateOfficerAsync(OfficerCreateDto officerDto)
+    {
+        var createdOfficer = await _service.CreateOfficerAsync(officerDto);
+        return CreatedAtAction(nameof(GetSingleAsync), new { callSign = createdOfficer.CallSign }, createdOfficer);
+    }
+
+    [HttpGet("{callSign}"), ActionName(nameof(GetSingleAsync))]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(OfficerReadDto))]
     [SwaggerResponse(StatusCodes.Status404NotFound)]
