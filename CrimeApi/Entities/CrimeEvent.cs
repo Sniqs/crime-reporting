@@ -18,7 +18,7 @@ public class CrimeEvent
     public string Description { get; set; } = null!;
     public string Location { get; set; } = null!;
     public string ReporterEmail { get; set; } = null!;
-    
+
     [BsonRepresentation(BsonType.String)]
     public Status EventStatus { get; set; }
     public string AssignedOfficerCallSign { get; set; } = null!;

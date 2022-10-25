@@ -1,4 +1,4 @@
 ﻿namespace CrimeApi.DTOs;
 
-public record AssignOfficerDto (string CrimeEventId);
+public record AssignOfficerDto(string CrimeEventId);
 

@@ -10,18 +10,18 @@ namespace LawEnforcementApi.Controllers;
 [ApiController]
 public class OfficersController : ControllerBase
 {
-	private readonly IOfficersService _service;
+    private readonly IOfficersService _service;
 
-	public OfficersController(IOfficersService service)
-	{
-		_service = service;
-	}
+    public OfficersController(IOfficersService service)
+    {
+        _service = service;
+    }
 
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<OfficerReadDto>))]
     public async Task<IActionResult> GetAllAsync()
-		=> Ok(await _service.GetAllAsync());
+        => Ok(await _service.GetAllAsync());
 
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]

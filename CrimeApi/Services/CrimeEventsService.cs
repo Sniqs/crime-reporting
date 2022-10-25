@@ -17,8 +17,8 @@ public class CrimeEventsService : ICrimeEventsService
 
     public CrimeEventsService(
         ICrimeEventsDAO crimeEventsDAO,
-        IMapper mapper, 
-        IHttpClientFactory clientFactory, 
+        IMapper mapper,
+        IHttpClientFactory clientFactory,
         IConfiguration configuration,
         ILogger<CrimeEventsService> logger)
     {

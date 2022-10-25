@@ -32,26 +32,6 @@ public class OfficersService : IOfficersService
         await _dbcontext.SaveChangesAsync();
         return _mapper.Map<CallSignDto>(officer);
     }
-
-    private async Task<Officer> GetRandomOfficerAsync()
-    {
-        _logger.LogDebug("Attempting to get the number of officers in persistence");
-        var numberOfOfficers = await _dbcontext.Officers.CountAsync();
-
-        if (numberOfOfficers == 0)
-            throw new ResourceNotFoundException($"No officers available.");
-                
-        var randomOfficer = RandomNumberGenerator.GetRandomFromRange(0, numberOfOfficers);
-        var officer = await _dbcontext.Officers.Skip(randomOfficer).Take(1).FirstOrDefaultAsync();
-
-        if (officer is null)
-        {
-            _logger.LogDebug("Persistence returned a null officer");
-            throw new ResourceNotFoundException($"No officers available.");
-        }
-        return officer;
-    }
-
     public async Task<IEnumerable<OfficerReadDto>> GetAllAsync()
     {
         _logger.LogDebug("Attempting to get all officers from persistence");
@@ -112,5 +92,24 @@ public class OfficersService : IOfficersService
             throw new ResourceNotFoundException($"Rank {providedRank} doesn't exist.");
         }
         return rank;
+    }
+
+    private async Task<Officer> GetRandomOfficerAsync()
+    {
+        _logger.LogDebug("Attempting to get the number of officers in persistence");
+        var numberOfOfficers = await _dbcontext.Officers.CountAsync();
+
+        if (numberOfOfficers == 0)
+            throw new ResourceNotFoundException($"No officers available.");
+
+        var randomOfficer = RandomNumberGenerator.GetRandomFromRange(0, numberOfOfficers);
+        var officer = await _dbcontext.Officers.Skip(randomOfficer).Take(1).FirstOrDefaultAsync();
+
+        if (officer is null)
+        {
+            _logger.LogDebug("Persistence returned a null officer");
+            throw new ResourceNotFoundException($"No officers available.");
+        }
+        return officer;
     }
 }

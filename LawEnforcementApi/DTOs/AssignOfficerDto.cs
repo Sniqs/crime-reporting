@@ -2,7 +2,7 @@
 
 namespace LawEnforcementApi.DTOs;
 
-public record AssignOfficerDto 
+public record AssignOfficerDto
 {
     [MaxLength(50)]
     public string CrimeEventId { get; init; } = null!;

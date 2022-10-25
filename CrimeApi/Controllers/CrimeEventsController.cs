@@ -40,7 +40,7 @@ public class CrimeEventsController : ControllerBase
             return Ok(await _service.GetSingleCrimeEventAsync(crimeEventId));
 
         _logger.LogInformation("Incorrect event id: {eventId}.", crimeEventId);
-        return BadRequest(new {Message = "Incorrect event id." });
+        return BadRequest(new { Message = "Incorrect event id." });
     }
 
     [HttpPost]

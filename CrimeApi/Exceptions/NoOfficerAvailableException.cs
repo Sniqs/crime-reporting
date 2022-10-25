@@ -2,5 +2,5 @@
 
 public class NoOfficerAvailableException : Exception
 {
-	public NoOfficerAvailableException(string message) : base(message) { }
+    public NoOfficerAvailableException(string message) : base(message) { }
 }

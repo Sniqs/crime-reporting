@@ -22,7 +22,7 @@ public class CrimeEventsDAO : ICrimeEventsDAO
     }
     public async Task CreateCrimeEventAsync(CrimeEvent crimeEvent)
         => await _crimeEventsCollection.InsertOneAsync(crimeEvent);
-    
+
 
     public async Task<IEnumerable<CrimeEvent>> GetAllAsync()
         => await _crimeEventsCollection.Find(_ => true).ToListAsync();
