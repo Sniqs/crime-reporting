@@ -20,6 +20,10 @@ public class CrimeEventsController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Gets a list of all the crime events.
+    /// </summary>
+    /// <returns>List of all the crime events.</returns>
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<CrimeEventReadDto>))]
@@ -29,6 +33,11 @@ public class CrimeEventsController : ControllerBase
         return Ok(allEvents);
     }
 
+    /// <summary>
+    /// Gets data of a single crime event.
+    /// </summary>
+    /// <param name="crimeEventId">Identifier of the crime event to return.</param>
+    /// <returns>Data of the specified crime event.</returns>
     [HttpGet("{crimeEventId}"), ActionName(nameof(GetSingleEventAsync))]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(CrimeEventReadDto))]
@@ -43,6 +52,11 @@ public class CrimeEventsController : ControllerBase
         return BadRequest(new { Message = "Incorrect event id." });
     }
 
+    /// <summary>
+    /// Creates a crime event based on the provided data.
+    /// </summary>
+    /// <param name="eventDto">Data of the crime event to create.</param>
+    /// <returns>Data of the created crime event.</returns>
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
