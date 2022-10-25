@@ -36,8 +36,8 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo-db-data:/data/db
+      - crime-event-db:/data/db
 
 volumes:
     law-enforcement-db:
-    mongo-db-data:
+    crime-event-db:
