@@ -33,12 +33,15 @@ public class CrimeEventsService : ICrimeEventsService
     private async Task AssignOfficerAsync(CrimeEvent eventToCreate)
     {
         var client = _clientFactory.CreateClient();
-        var callSignDto = await client.GetFromJsonAsync<CallSignDto>($"{_configuration["LawEnforcementApiBaseUrl"]}/api/Officers/assign/{eventToCreate.Id}");
-        
-        if (callSignDto == null)
+        var assignOfficerDto = new AssignOfficerDto(eventToCreate.Id);
+        var response = await client.PostAsJsonAsync($"{_configuration["LawEnforcementApiBaseUrl"]}/api/Officers/assign", assignOfficerDto);
+
+        if (!response.IsSuccessStatusCode)
         {
-            throw new NoOfficerAvailableException("No officers available. Try again later.");
+            throw new NoOfficerAvailableException("No officers available");
         }
+
+        var callSignDto = await response.Content.ReadFromJsonAsync<CallSignDto>();
 
         eventToCreate.AssignedOfficerCallSign = callSignDto.CallSign;
         await _crimeEventsDAO.UpdateCrimeEventAsync(eventToCreate);

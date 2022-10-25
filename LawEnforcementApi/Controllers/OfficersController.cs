@@ -23,16 +23,14 @@ public class OfficersController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
 		=> Ok(await _service.GetAllAsync());
 
-    [HttpGet("assign/{crimeEventId}")]
+    [HttpPost("assign")]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status200OK)]
-    public async Task<IActionResult> AssignOfficer(string crimeEventId)
+    public async Task<IActionResult> AssignOfficer(AssignOfficerDto assignOfficerDto)
     {
-        var officerCallSignDto = await _service.AssignCaseToOfficerAsync(crimeEventId);
+        var officerCallSignDto = await _service.AssignCaseToOfficerAsync(assignOfficerDto.CrimeEventId);
         return Ok(officerCallSignDto);
     }
-
-
 
     [HttpGet("{callSign}")]
     [Produces(MediaTypeNames.Application.Json)]
