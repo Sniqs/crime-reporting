@@ -5,7 +5,7 @@ namespace CrimeApi.DTOs;
 
 public record CrimeEventCreateDto
 {
-    public DateTime OccurrenceTime { get; init; }
+    public DateTime OccurrenceTime { get; init; } = DateTime.UtcNow;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EventType Type { get; init; }

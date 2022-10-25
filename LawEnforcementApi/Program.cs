@@ -1,4 +1,5 @@
 using LawEnforcementApi.Contexts;
+using LawEnforcementApi.Extensions;
 using LawEnforcementApi.Middleware;
 using LawEnforcementApi.Services;
 using LawEnforcementApi.Services.Interfaces;
@@ -21,17 +22,15 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.ApplyPendingMigrations();
 
 app.Run();
