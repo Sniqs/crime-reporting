@@ -1,5 +1,6 @@
 using CrimeApi.Extensions;
 using Serilog;
+using Serilog.Formatting.Compact;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -13,7 +14,7 @@ try
 
 	builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console()
-        .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day));
+        .WriteTo.File(new CompactJsonFormatter(), "Logs/log.json", rollingInterval: RollingInterval.Day));
 
     // Add services to the container.
     builder.Services.AddControllers();
