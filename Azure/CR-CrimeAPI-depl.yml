@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cr-crimeapi-depl
+  namespace: cr
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: cr-crimeapi
+  template:
+    metadata:
+      labels:
+        app: cr-crimeapi
+    spec:
+      containers:
+        - name: cr-crimeapi
+          image: crime.azurecr.io/crimeapi
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+            - name: ASPNETCORE_ENVIRONMENT
+              value: AKS
+            - name: CrimeEventsDB__ConnectionString
+              valueFrom: 
+                secretKeyRef:
+                  name: connection-strings
+                  key: CRIME_COSMOS_DB
+            - name: LawEnforcementApiBaseUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: hosts
+                  key: LAW_ENFORCEMENT_API
+            - name: SeqServerUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: hosts
+                  key: SEQ_SERVER
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cr-crimeapi
+  namespace: cr
+spec:
+  type: ClusterIP
+  selector:
+    app: cr-crimeapi
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP

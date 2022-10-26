@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cr-seq-depl
+  namespace: cr
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: cr-seq
+  template:
+    metadata:
+      labels:
+        app: cr-seq
+    spec:
+      containers:
+        - name: cr-seq
+          image: datalust/seq
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cr-seq
+  namespace: cr
+spec:
+  type: ClusterIP
+  selector:
+    app: cr-seq
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP

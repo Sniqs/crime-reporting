@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hosts
+  namespace: cr
+data:
+  LAW_ENFORCEMENT_API: "http://cr-lawenforcementapi:80"
+  SEQ_SERVER: "http://cr-seq:80"

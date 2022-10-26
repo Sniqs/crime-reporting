@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cr-lawenforcementapi-depl
+  namespace: cr
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: cr-lawenforcementapi
+  template:
+    metadata:
+      labels:
+        app: cr-lawenforcementapi
+    spec:
+      containers:
+        - name: cr-lawenforcementapi
+          image: crime.azurecr.io/lawenforcementapi
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+            - name: ASPNETCORE_ENVIRONMENT
+              value: AKS
+            - name: ConnectionStrings__LawEnforcementDb
+              valueFrom: 
+                secretKeyRef:
+                  name: connection-strings
+                  key: LAWENFORCEMENT_SQL_DB
+            - name: SeqServerUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: hosts
+                  key: SEQ_SERVER
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cr-lawenforcementapi
+  namespace: cr
+spec:
+  type: ClusterIP
+  selector:
+    app: cr-lawenforcementapi
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP

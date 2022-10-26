@@ -9,6 +9,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LawEnforcementApi", "LawEnf
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9AAB5114-3964-4775-B352-2699F42B8594}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{B8937F54-3762-4E86-AC87-40D7D17B5B88}"
+	ProjectSection(SolutionItems) = preProject
+		Azure\CR-configmaps.yml = Azure\CR-configmaps.yml
+		Azure\CR-CrimeAPI-depl.yml = Azure\CR-CrimeAPI-depl.yml
+		Azure\CR-ingress-controller.yml = Azure\CR-ingress-controller.yml
+		Azure\CR-ingress.yml = Azure\CR-ingress.yml
+		Azure\CR-LawEnforcementAPI-depl.yml = Azure\CR-LawEnforcementAPI-depl.yml
+		Azure\CR-namespace.yml = Azure\CR-namespace.yml
+		Azure\CR-secrets.yml = Azure\CR-secrets.yml
+		Azure\CR-seq-depl.yml = Azure\CR-seq-depl.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
