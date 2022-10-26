@@ -8,12 +8,33 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - http:
+    - host: crime.sniqs.pl
+      http:
         paths:
           - path: /(.*)
             pathType: Prefix
             backend:
               service:
                 name: cr-crimeapi
+                port: 
+                  number: 80
+    - host: le.sniqs.pl
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: cr-lawenforcementapi
+                port: 
+                  number: 80
+    - host: seq.sniqs.pl
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: cr-seq
                 port: 
                   number: 80
