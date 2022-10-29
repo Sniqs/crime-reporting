@@ -1,11 +1,6 @@
 # Crime Reporting API
 This is a simple project that allows you to track crime events. The events are stored in a MongoDB collection while the officer information is persisted in an MS SQL Server database.
 
-## How to access a running instance of this project
-* The Crime API is available at http://crime.sniqs.pl. Go to http://crime.sniqs.pl/swagger for Swagger
-* The Law Enforcement API is available at http://le.sniqs.pl. Go to http://le.sniqs.pl/swagger for Swagger
-* The Seq server is available at http://seq.sniqs.pl.
-
 ## How to run this project using Docker Compose on a Windows machine
 
 ### Prerequisites
